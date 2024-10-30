@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/Welcome/components/background.dart';
+import 'package:flutter_application_1/Screens/Login/login_screen.dart';
+import 'package:flutter_application_1/Screens/Register/register_screen.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -14,7 +16,7 @@ class Body extends StatelessWidget {
             Text(
               "🐳  Fish Buddy!!! ",
               style: TextStyle(
-                fontFamily: 'Curlz MT', // Replace with your desired font family
+                fontFamily: 'Curlz MT',
                 fontSize: 28,
                 fontWeight: FontWeight.w600,
                 color: Colors.teal,
@@ -34,10 +36,15 @@ class Body extends StatelessWidget {
               height: size.height * 0.4,
             ),
             SizedBox(height: 40), // Space between image and buttons
+
             // Sign In Button
             ElevatedButton(
               onPressed: () {
-                // Add your sign-in logic here
+                // Navigate to the login screen when the button is pressed
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple, // Button color
@@ -55,10 +62,14 @@ class Body extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20), // Space between buttons
+
             // Sign Up Button
             ElevatedButton(
               onPressed: () {
-                // Add your sign-up logic here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterScreen()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green, // Button color
