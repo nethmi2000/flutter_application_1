@@ -10,20 +10,19 @@ class ImageUploadScreen extends StatefulWidget {
 }
 
 class _ImageUploadScreenState extends State<ImageUploadScreen> {
-  File? _image; // Variable to hold the selected image
+  File? _image;
 
   Future<void> _openGallery() async {
     print("Open Gallery button pressed"); // Debugging
-    final ImagePicker picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker _picker = ImagePicker();
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
-        _image =
-            File(pickedFile.path); // Update the state with the selected image
+        _image = File(pickedFile.path);
       });
     } else {
-      print("No image selected"); // Debugging
+      print("No image selected");
     }
   }
 
@@ -39,28 +38,33 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
     }
   }
 
+  void _detect() {
+    // Implement detection logic here
+    print("Detect button pressed");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Image Upload"),
+        title: Text("Image Upload"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _image == null
-                ? const Text("No image selected.")
+                ? Text("No image selected.")
                 : Image.file(_image!), // Display the selected or captured image
-            const SizedBox(height: 20), // Add some space
+            SizedBox(height: 20), // Add some space
             ElevatedButton(
               onPressed: _openGallery,
-              child: const Text("Open Gallery"),
+              child: Text("Open Gallery"),
             ),
-            const SizedBox(height: 10), // Add some space
+            SizedBox(height: 10), // Add some space
             ElevatedButton(
               onPressed: _startCamera,
-              child: const Text("Start Camera"),
+              child: Text("Start Camera"),
             ),
           ],
         ),
