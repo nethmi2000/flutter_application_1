@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -16,7 +18,7 @@ class LoginScreen extends StatelessWidget {
         children: <Widget>[
           // Background image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/L2.png"),
                 fit: BoxFit.cover,
@@ -53,7 +55,8 @@ class LoginScreen extends StatelessWidget {
           // Center content with scrollable container and fixed padding
           SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(height: size.height * 0.1),
 
                     // "Sign in" text
-                    Text(
+                    const Text(
                       "🐳 Sign In",
                       style: TextStyle(
                         fontSize: 30,
@@ -69,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                         color: Color.fromARGB(255, 164, 1, 229),
                       ),
                     ),
-                    SizedBox(height: 25),
+                    const SizedBox(height: 25),
 
                     // Center image
                     Image.asset(
@@ -83,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: [Colors.green, Colors.purple],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -99,7 +102,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             filled: true,
                             fillColor: Colors.transparent,
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.person,
                               color: Colors.white,
                             ),
@@ -107,14 +110,14 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
 
                     // Password input field with circular gradient padding and icon
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: [Colors.green, Colors.purple],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -124,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                         child: PasswordField(),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
                     // Login button
                     ElevatedButton(
@@ -133,10 +136,10 @@ class LoginScreen extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.teal,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40, vertical: 15),
                       ),
-                      child: Text("Log In"),
+                      child: const Text("Log In"),
                     ),
                   ],
                 ),
@@ -150,6 +153,8 @@ class LoginScreen extends StatelessWidget {
 }
 
 class PasswordField extends StatefulWidget {
+  const PasswordField({super.key});
+
   @override
   _PasswordFieldState createState() => _PasswordFieldState();
 }
@@ -169,7 +174,7 @@ class _PasswordFieldState extends State<PasswordField> {
         ),
         filled: true,
         fillColor: Colors.transparent,
-        prefixIcon: Icon(
+        prefixIcon: const Icon(
           Icons.lock,
           color: Colors.white,
         ),

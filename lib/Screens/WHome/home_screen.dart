@@ -4,7 +4,7 @@ import 'package:flutter_application_1/Screens/WHome/image_upload.dart';
 class HomeScreen extends StatelessWidget {
   final String username;
 
-  HomeScreen({required this.username});
+  const HomeScreen({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("🐳  🐠  🐙  🦑  🐋  🐬  🪼  🐳 "),
+        title: const Text("🐳  🐠  🐙  🦑  🐋  🐬  🪼  🐳 "),
         backgroundColor: const Color.fromARGB(77, 0, 150, 135),
       ),
       body: Padding(
@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Greeting message
-            Text(
+            const Text(
               "Welcome,Buddy Family!",
               style: TextStyle(
                 fontSize: 28,
@@ -29,22 +29,22 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.teal,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Message box for introduction text
             Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [Colors.purple, Colors.green],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(15),
               ),
-              padding: EdgeInsets.all(20),
-              margin:
-                  EdgeInsets.symmetric(vertical: 20), // Margin around the box
-              child: Column(
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.symmetric(
+                  vertical: 20), // Margin around the box
+              child: const Column(
                 children: [
                   Text(
                     "Fish Buddy is a mobile application designed to assist fish enthusiasts, "
@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
               fit:
                   BoxFit.cover, // Cover the area while maintaining aspect ratio
             ),
-            Spacer(), // Space to push buttons to the bottom
+            const Spacer(), // Space to push buttons to the bottom
             // Row for buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,9 +79,10 @@ class HomeScreen extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 15),
                   ),
-                  child: Text("Previous"),
+                  child: const Text("Previous"),
                 ),
                 // Next button
                 ElevatedButton(
@@ -95,9 +96,10 @@ class HomeScreen extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.teal,
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 15),
                   ),
-                  child: Text("    Next     "),
+                  child: const Text("    Next     "),
                 ),
               ],
             ),
@@ -110,13 +112,15 @@ class HomeScreen extends StatelessWidget {
 
 // Placeholder for the next screen
 class NextScreen extends StatelessWidget {
+  const NextScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Next Screen"),
+        title: const Text("Next Screen"),
       ),
-      body: Center(
+      body: const Center(
         child: Text("This is the next screen!"),
       ),
     );

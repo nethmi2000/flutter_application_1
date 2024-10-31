@@ -3,6 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class ImageUploadScreen extends StatefulWidget {
+  const ImageUploadScreen({super.key});
+
   @override
   _ImageUploadScreenState createState() => _ImageUploadScreenState();
 }
@@ -12,8 +14,8 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
 
   Future<void> _openGallery() async {
     print("Open Gallery button pressed"); // Debugging
-    final ImagePicker _picker = ImagePicker();
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -26,8 +28,8 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
   }
 
   Future<void> _startCamera() async {
-    final ImagePicker _picker = ImagePicker();
-    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    final ImagePicker picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
       setState(() {
@@ -41,24 +43,24 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Image Upload"),
+        title: const Text("Image Upload"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _image == null
-                ? Text("No image selected.")
+                ? const Text("No image selected.")
                 : Image.file(_image!), // Display the selected or captured image
-            SizedBox(height: 20), // Add some space
+            const SizedBox(height: 20), // Add some space
             ElevatedButton(
               onPressed: _openGallery,
-              child: Text("Open Gallery"),
+              child: const Text("Open Gallery"),
             ),
-            SizedBox(height: 10), // Add some space
+            const SizedBox(height: 10), // Add some space
             ElevatedButton(
               onPressed: _startCamera,
-              child: Text("Start Camera"),
+              child: const Text("Start Camera"),
             ),
           ],
         ),

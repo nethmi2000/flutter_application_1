@@ -6,6 +6,8 @@ import 'package:flutter_application_1/Screens/Register/register_screen.dart';
 import 'package:flutter_application_1/Screens/WHome/home_screen.dart';
 
 class Body extends StatelessWidget {
+  const Body({super.key});
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -27,17 +29,17 @@ class Body extends StatelessWidget {
                   Shadow(
                     blurRadius: 4.0,
                     color: Colors.black.withOpacity(0.3),
-                    offset: Offset(2.0, 2.0),
+                    offset: const Offset(2.0, 2.0),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Image.asset(
               "assets/images/T1.png",
               height: size.height * 0.4,
             ),
-            SizedBox(height: 40), // Space between image and buttons
+            const SizedBox(height: 40), // Space between image and buttons
 
             // Sign In Button
             ElevatedButton(
@@ -50,12 +52,13 @@ class Body extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple, // Button color
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // Rounded corners
                 ),
               ),
-              child: Text(
+              child: const Text(
                 "Sign In",
                 style: TextStyle(
                   fontSize: 20,
@@ -63,7 +66,7 @@ class Body extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20), // Space between buttons
+            const SizedBox(height: 20), // Space between buttons
 
             ////////////////////////////////////////////////////////////////////test home & upload image
             ElevatedButton(
@@ -78,12 +81,13 @@ class Body extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green, // Button color
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // Rounded corners
                 ),
               ),
-              child: Text(
+              child: const Text(
                 "home",
                 style: TextStyle(
                   fontSize: 20,
@@ -101,12 +105,13 @@ class Body extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green, // Button color
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // Rounded corners
                 ),
               ),
-              child: Text(
+              child: const Text(
                 "image",
                 style: TextStyle(
                   fontSize: 20,
@@ -126,12 +131,13 @@ class Body extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green, // Button color
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // Rounded corners
                 ),
               ),
-              child: Text(
+              child: const Text(
                 "Sign Up",
                 style: TextStyle(
                   fontSize: 20,
