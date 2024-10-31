@@ -14,15 +14,15 @@ class LoginScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: <Widget>[
-          // Background image
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/L2.png"),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+          // // Background image
+          // Container(
+          //   decoration: BoxDecoration(
+          //     image: DecorationImage(
+          //       image: AssetImage("assets/images/L2.png"),
+          //       fit: BoxFit.cover,
+          //     ),
+          //   ),
+          // ),
           // Top image
           Positioned(
             top: 0,
