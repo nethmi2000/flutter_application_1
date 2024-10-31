@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -12,9 +10,9 @@ class RegisterScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(104, 8, 8, 10),
         elevation: 0,
-        title: const Text(
+        title: Text(
           "Register",
-          style: TextStyle(color: Color.fromARGB(0, 0, 0, 0)),
+          style: TextStyle(color: const Color.fromARGB(0, 0, 0, 0)),
         ),
       ),
       body: Stack(
@@ -49,13 +47,12 @@ class RegisterScreen extends StatelessWidget {
           SingleChildScrollView(
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0, vertical: 40.0),
+                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 40.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(height: size.height * 0.001),
-                    const Text(
+                    Text(
                       "🐳  Sign Up",
                       style: TextStyle(
                         fontSize: 30,
@@ -63,17 +60,17 @@ class RegisterScreen extends StatelessWidget {
                         color: Color.fromARGB(255, 164, 1, 229),
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    SizedBox(height: 5),
                     Image.asset(
                       "assets/images/L1.png",
                       height: size.height * 0.3,
                     ),
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             colors: [Colors.green, Colors.purple],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -89,7 +86,7 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             filled: true,
                             fillColor: Colors.transparent,
-                            prefixIcon: const Icon(
+                            prefixIcon: Icon(
                               Icons.person,
                               color: Colors.white,
                             ),
@@ -101,7 +98,7 @@ class RegisterScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 5.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             colors: [Colors.green, Colors.purple],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -117,7 +114,7 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             filled: true,
                             fillColor: Colors.transparent,
-                            prefixIcon: const Icon(
+                            prefixIcon: Icon(
                               Icons.email,
                               color: Colors.white,
                             ),
@@ -129,7 +126,7 @@ class RegisterScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 5.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             colors: [Colors.green, Colors.purple],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -146,17 +143,17 @@ class RegisterScreen extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.teal,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 15),
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                       ),
-                      child: const Text("Register"),
+                      child: Text("Register"),
                     ),
                     SizedBox(height: size.height * 0.002),
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text(
+                      child: Text(
                         "Already have an account? Sign In",
                         style: TextStyle(
                           color: Color.fromARGB(255, 164, 1, 229),
@@ -175,8 +172,6 @@ class RegisterScreen extends StatelessWidget {
 }
 
 class PasswordField extends StatefulWidget {
-  const PasswordField({super.key});
-
   @override
   _PasswordFieldState createState() => _PasswordFieldState();
 }
@@ -196,7 +191,7 @@ class _PasswordFieldState extends State<PasswordField> {
         ),
         filled: true,
         fillColor: Colors.transparent,
-        prefixIcon: const Icon(
+        prefixIcon: Icon(
           Icons.lock,
           color: Colors.white,
         ),

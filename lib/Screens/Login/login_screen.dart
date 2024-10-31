@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
         children: <Widget>[
           // Background image
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/L2.png"),
                 fit: BoxFit.cover,
