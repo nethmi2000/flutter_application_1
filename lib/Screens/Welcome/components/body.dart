@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/WHome/image_upload.dart';
 import 'package:flutter_application_1/Screens/Welcome/components/background.dart';
 import 'package:flutter_application_1/Screens/Login/login_screen.dart';
 import 'package:flutter_application_1/Screens/Register/register_screen.dart';
+import 'package:flutter_application_1/Screens/WHome/home_screen.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -62,6 +64,57 @@ class Body extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20), // Space between buttons
+
+            ////////////////////////////////////////////////////////////////////test home & upload image
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeScreen(
+                            username: '',
+                          )),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green, // Button color
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30), // Rounded corners
+                ),
+              ),
+              child: Text(
+                "home",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white, // Text color
+                ),
+              ),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ImageUploadScreen()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green, // Button color
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30), // Rounded corners
+                ),
+              ),
+              child: Text(
+                "image",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white, // Text color
+                ),
+              ),
+            ),
+            ///////////////////////////////////////////////////////////////////////////////////////
 
             // Sign Up Button
             ElevatedButton(
