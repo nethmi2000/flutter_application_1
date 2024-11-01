@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class GoogleMapScreen extends StatefulWidget {
   @override
@@ -11,11 +13,15 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   Set<Marker> _markers = {};
   final TextEditingController _locationController = TextEditingController();
 
+  // Replace with your own API keys
+  final String _geocodingApiKey = 'AIzaSyApHYUH5MfQaCitqMVVbp58DkPYExV6Iw8';
+  final String _placesApiKey = 'AIzaSyApHYUH5MfQaCitqMVVbp58DkPYExV6Iw8';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nearby Aquariums'),
+        title: const Text('🐳  Nearby Aquariums 📍'),
         backgroundColor: const Color.fromARGB(255, 76, 175, 79),
       ),
       body: Column(
@@ -25,14 +31,12 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             child: TextField(
               controller: _locationController,
               decoration: InputDecoration(
-                labelText: 'Enter Location (e.g., Galle)',
+                labelText: '▶️ Enter Location 🐋 (e.g., Galle)',
                 border: OutlineInputBorder(),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search),
                   onPressed: () {
-                    // Logic to search for nearby aquariums based on user input
-                    // Add a marker at the user's input location
-                    _addMarker(_locationController.text);
+                    _searchAquariumsNearby(_locationController.text);
                   },
                 ),
               ),
@@ -64,8 +68,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  // Exit functionality, typically you might close the app
-                  // In this case, just pop the context if that's how you manage it
                   Navigator.pop(context);
                 },
                 child: const Text('Exit'),
@@ -80,23 +82,73 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     );
   }
 
-  void _addMarker(String location) {
-    // Logic to convert location to LatLng and add a marker
-    // For now, we will just add a dummy marker
-    setState(() {
-      _markers.add(
-        Marker(
-          markerId: MarkerId(location),
-          position: LatLng(6.9271, 79.8612), // Replace with actual coordinates from location
-          infoWindow: InfoWindow(
-            title: location,
-            snippet: 'Aquarium details can go here',
-          ),
-        ),
-      );
+  Future<void> _searchAquariumsNearby(String location) async {
+    try {
+      // Step 1: Get coordinates of the location
+      final coordinates = await _getCoordinatesFromLocation(location);
+      if (coordinates == null) {
+        _showErrorMessage('Location not found');
+        return;
+      }
+
+      // Move the map to the new location
       _controller.animateCamera(
-        CameraUpdate.newLatLng(LatLng(6.9271, 79.8612)), // Replace with actual coordinates
+        CameraUpdate.newLatLngZoom(coordinates, 12),
       );
-    });
+
+      // Step 2: Search for aquariums nearby
+      final nearbyAquariums = await _getNearbyAquariums(coordinates);
+      setState(() {
+        _markers.clear();
+        for (var place in nearbyAquariums) {
+          _markers.add(
+            Marker(
+              markerId: MarkerId(place['place_id']),
+              position: LatLng(place['geometry']['location']['lat'], place['geometry']['location']['lng']),
+              infoWindow: InfoWindow(
+                title: place['name'],
+                snippet: place['vicinity'],
+              ),
+            ),
+          );
+        }
+      });
+    } catch (e) {
+      _showErrorMessage('Error occurred: $e');
+    }
+  }
+
+  Future<LatLng?> _getCoordinatesFromLocation(String location) async {
+    final url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$location&key=$_geocodingApiKey');
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      if (data['status'] == 'OK') {
+        final lat = data['results'][0]['geometry']['location']['lat'];
+        final lng = data['results'][0]['geometry']['location']['lng'];
+        return LatLng(lat, lng);
+      }
+    }
+    return null;
+  }
+
+  Future<List<dynamic>> _getNearbyAquariums(LatLng coordinates) async {
+    final url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coordinates.latitude},${coordinates.longitude}&radius=5000&type=aquarium&key=$_placesApiKey');
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      if (data['status'] == 'OK') {
+        return data['results'];
+      }
+    }
+    return [];
+  }
+
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 }
