@@ -1,193 +1,118 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_1/Screens/WHome/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        title: const Text("Login"),
+        backgroundColor: Colors.teal,
       ),
-      extendBodyBehindAppBar: true,
-      body: Stack(
-        children: <Widget>[
-          // Background image
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/L2.png"),
-                fit: BoxFit.cover,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              // App Logo
+              Image.asset(
+                'assets/images/H1.png', // Replace with your logo path
+                height: 100,
+                fit: BoxFit.contain,
               ),
-            ),
-          ),
-          // Top image
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Image.asset(
-              "assets/images/main_top.png",
-              width: size.width * 0.4,
-            ),
-          ),
-          // Top right image
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Image.asset(
-              "assets/images/B1.png",
-              width: size.width * 0.5,
-            ),
-          ),
-          // Bottom-right image
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Image.asset(
-              "assets/images/login_bottom.png",
-              width: size.width * 0.4,
-            ),
-          ),
-          // Center content with scrollable container and fixed padding
-          SingleChildScrollView(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: size.height * 0.1),
+              const SizedBox(height: 20),
 
-                    // "Sign in" text
-                    const Text(
-                      "🐳 Sign In",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 164, 1, 229),
-                      ),
-                    ),
-                    const SizedBox(height: 25),
-
-                    // Center image
-                    Image.asset(
-                      "assets/images/L1.png",
-                      height: size.height * 0.4,
-                    ),
-                    SizedBox(height: size.height * 0.05),
-
-                    // Username input field with circular gradient padding and icon
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Colors.green, Colors.purple],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: "Username",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: Colors.transparent,
-                            prefixIcon: const Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-
-                    // Password input field with circular gradient padding and icon
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Colors.green, Colors.purple],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: PasswordField(),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Login button
-                    ElevatedButton(
-                      onPressed: () {
-                        // Add your login logic here
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 15),
-                      ),
-                      child: const Text("Log In"),
-                    ),
-                  ],
+              // Email TextField
+              TextField(
+                controller: _emailTextController,
+                decoration: InputDecoration(
+                  hintText: "Email",
+                  prefixIcon: const Icon(Icons.email, color: Colors.teal),
+                  filled: true,
+                  fillColor: Colors.teal.shade50,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(height: 10),
+
+              // Password TextField
+              TextField(
+                controller: _passwordTextController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: "Password",
+                  prefixIcon: const Icon(Icons.lock, color: Colors.teal),
+                  filled: true,
+                  fillColor: Colors.teal.shade50,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Login Button
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    // Attempt to sign in
+                    UserCredential userCredential = await FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                      email: _emailTextController.text.trim(),
+                      password: _passwordTextController.text.trim(),
+                    );
+
+                    // If login is successful, navigate to HomeScreen
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(
+                          username: _emailTextController.text,
+                        ),
+                      ),
+                    );
+                  } catch (error) {
+                    print("Login failed: $error");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Login failed. Please try again.")),
+                    );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.teal,
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: const Text(
+                  "Login",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+
+              // Optional Signup Link
+              TextButton(
+                onPressed: () {
+                  // Navigate to the signup screen (add your signup screen here)
+                },
+                child: const Text(
+                  "Don't have an account? Sign up",
+                  style: TextStyle(color: Colors.teal),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class PasswordField extends StatefulWidget {
-  const PasswordField({super.key});
-
-  @override
-  _PasswordFieldState createState() => _PasswordFieldState();
-}
-
-class _PasswordFieldState extends State<PasswordField> {
-  bool _obscureText = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      obscureText: _obscureText,
-      decoration: InputDecoration(
-        hintText: "Password",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide.none,
-        ),
-        filled: true,
-        fillColor: Colors.transparent,
-        prefixIcon: const Icon(
-          Icons.lock,
-          color: Colors.white,
-        ),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _obscureText ? Icons.visibility : Icons.visibility_off,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            setState(() {
-              _obscureText = !_obscureText; // Toggle password visibility
-            });
-          },
         ),
       ),
     );

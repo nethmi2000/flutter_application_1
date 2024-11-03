@@ -1,7 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'fish_detect.dart';
 
 class ImageUploadScreen extends StatefulWidget {
@@ -13,9 +14,10 @@ class ImageUploadScreen extends StatefulWidget {
 
 class _ImageUploadScreenState extends State<ImageUploadScreen> {
   File? _image;
+  String fishName = ""; // To store the detected fish name from the backend
 
+  // Open gallery to select an image
   Future<void> _openGallery() async {
-    print("Open Gallery button pressed");
     final ImagePicker picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
@@ -23,34 +25,88 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
       setState(() {
         _image = File(pickedFile.path);
       });
-    } else {
-      print("No image selected");
     }
   }
 
+  // Open camera to capture an image
   Future<void> _startCamera() async {
     final ImagePicker picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
       setState(() {
-        _image =
-            File(pickedFile.path); // Update the state with the captured image
+        _image = File(pickedFile.path);
       });
     }
   }
 
-  void _detect() {
-    // Implement detection logic here
-    //print("Detect button pressed");
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FishDetectScreen(
-          imageFile: _image,
-        ),
-      ),
-    );
+  // Function to send base64 image to the backend for prediction
+  Future<void> getPrediction() async {
+    final url = Uri.parse(
+        'http://10.0.2.2:5000/predict'); // Adjust this URL if using a physical device
+
+    if (_image == null) {
+      print("No image selected.");
+      return;
+    }
+
+    // Convert image to base64
+    final bytes = await _image!.readAsBytes();
+    final base64Image = base64Encode(bytes);
+
+    // Prepare JSON payload
+    final Map<String, dynamic> data = {
+      'image': base64Image,
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 200) {
+        final result = json.decode(response.body);
+        setState(() {
+          fishName = result['predicted_class']; // Save detected fish name
+        });
+        print('Detected Fish: $fishName');
+      } else {
+        print('Error: ${response.statusCode} - ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      print('Connection error: $e');
+    }
+  }
+
+  // Trigger detection and send base64 image to backend
+  void _detect() async {
+    if (_image != null) {
+      // Call getPrediction with the base64 image
+      await getPrediction();
+
+      // Navigate to FishDetectScreen if fishName is available
+      if (fishName.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FishDetectScreen(
+              imageFile: _image,
+              fishName: fishName,
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Prediction failed. Try again.')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No image selected')),
+      );
+    }
   }
 
   @override
@@ -58,29 +114,25 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("🐬Buddy Image Upload🦑"),
-        backgroundColor:
-        const Color.fromARGB(52, 76, 175, 79), // Set AppBar color here
+        backgroundColor: const Color.fromARGB(52, 76, 175, 79),
       ),
       body: Stack(
         children: [
-          // Background Image
           Center(
             child: Container(
-              width: 600, // Adjust width of the background image
-              height: 400, // Adjust height of the background image
+              width: 600,
+              height: 400,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                      'assets/images/I1.png'), // Background image path
-                  fit: BoxFit.contain, // Adjust to fit within the container
+                  image: AssetImage('assets/images/I1.png'),
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
           ),
-          // Main content with buttons and image display
           Column(
             children: [
-              const SizedBox(height: 50), // Space from top of the screen
+              const SizedBox(height: 50),
               _buildGradientButton("Open Gallery", _openGallery),
               const SizedBox(height: 10),
               _buildGradientButton("Start Camera", _startCamera),
@@ -88,24 +140,23 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                 child: Center(
                   child: _image == null
                       ? const Text(
-                    "TO DETECT DISEASE.",
-                    style: TextStyle(
-                        color: Color.fromARGB(24, 1, 89, 99),
-                        fontSize: 20),
-                  )
+                          "TO DETECT DISEASE.",
+                          style: TextStyle(
+                              color: Color.fromARGB(24, 1, 89, 99),
+                              fontSize: 20),
+                        )
                       : Image.file(
-                    _image!,
-                    height: 600, // Adjustable height for displayed image
-                    width: 400, // Adjustable width for displayed image
-                    fit: BoxFit.cover,
-                  ),
+                          _image!,
+                          height: 600,
+                          width: 400,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
             ],
           ),
-          // DETECT button near the bottom
           Positioned(
-            bottom: 60, // Position the button slightly above the bottom
+            bottom: 60,
             left: 0,
             right: 0,
             child: Center(
@@ -127,7 +178,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
       child: Ink(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [Colors.purple, Colors.green], // Combine purple and green
+            colors: [Colors.purple, Colors.green],
           ),
           borderRadius: BorderRadius.circular(30),
         ),
@@ -135,7 +186,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Text(
             text,
-            style: const TextStyle(color: Colors.white), // Button text color
+            style: const TextStyle(color: Colors.white),
           ),
         ),
       ),

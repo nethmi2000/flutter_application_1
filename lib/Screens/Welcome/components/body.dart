@@ -18,7 +18,7 @@ class Body extends StatelessWidget {
           children: <Widget>[
             // Text with emojis
             Text(
-              "🐳  Fish Buddy!!! ",
+              "🐳  Fish Buddy ",
               style: TextStyle(
                 fontFamily: 'Curlz MT',
                 fontSize: 28,
@@ -69,57 +69,56 @@ class Body extends StatelessWidget {
             const SizedBox(height: 20), // Space between buttons
 
             ////////////////////////////////////////////////////////////////////test home & upload image
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => HomeScreen(
-                            username: '',
-                          )),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green, // Button color
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30), // Rounded corners
-                ),
-              ),
-              child: const Text(
-                "home",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white, // Text color
-                ),
-              ),
-            ),
-
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ImageUploadScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green, // Button color
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30), // Rounded corners
-                ),
-              ),
-              child: const Text(
-                "image",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white, // Text color
-                ),
-              ),
-            ),
-            ///////////////////////////////////////////////////////////////////////////////////////
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => HomeScreen(
+            //                 username: '',
+            //               )),
+            //     );
+            //   },
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: Colors.green, // Button color
+            //     padding:
+            //         const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(30), // Rounded corners
+            //     ),
+            //   ),
+            //   child: const Text(
+            //     "home",
+            //     style: TextStyle(
+            //       fontSize: 20,
+            //       color: Colors.white, // Text color
+            //     ),
+            //   ),
+            // ),
+            //
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => ImageUploadScreen()),
+            //     );
+            //   },
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: Colors.green, // Button color
+            //     padding:
+            //         const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(30), // Rounded corners
+            //     ),
+            //   ),
+            //   child: const Text(
+            //     "image",
+            //     style: TextStyle(
+            //       fontSize: 20,
+            //       color: Colors.white, // Text color
+            //     ),
+            //   ),
+            // ),
 
             // Sign Up Button
             ElevatedButton(

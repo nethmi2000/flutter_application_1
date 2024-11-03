@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_1/Screens/Welcome/welcome_screen.dart';
+
+import 'package:flutter_application_1/Screens/WHome/home_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
+
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -106,6 +115,7 @@ class RegisterScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: TextField(
+                          controller: _emailTextController,
                           decoration: InputDecoration(
                             hintText: "Email",
                             border: OutlineInputBorder(
@@ -133,20 +143,31 @@ class RegisterScreen extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        child: PasswordField(),
+                        child: PasswordField(controller: _passwordTextController),
                       ),
                     ),
                     SizedBox(height: size.height * 0.05),
                     ElevatedButton(
                       onPressed: () {
-                        //  registration logic
+                        FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                            email: _emailTextController.text,
+                            password: _passwordTextController.text,
+                          )
+                          .then((value) {
+                            print("Created New Account");
+                          // Navigate to HomeScreen after successful registration
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                        }).onError((error, stackTrace){
+                              print("Error ${error.toString()}");
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.teal,
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                       ),
-                      child: Text("Register"),
+                      child: Text("Sign Up"),
                     ),
                     SizedBox(height: size.height * 0.002),
                     TextButton(
@@ -172,6 +193,10 @@ class RegisterScreen extends StatelessWidget {
 }
 
 class PasswordField extends StatefulWidget {
+  final TextEditingController controller; // Added a TextEditingController parameter
+
+  PasswordField({required this.controller}); // Constructor to accept the controller
+
   @override
   _PasswordFieldState createState() => _PasswordFieldState();
 }
@@ -182,6 +207,7 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: widget.controller,
       obscureText: _obscureText,
       decoration: InputDecoration(
         hintText: "Password",
